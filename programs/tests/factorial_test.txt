@@ -1,0 +1,42 @@
+# =========================================
+#  Test Cases for Factorial Program :
+#  - ทดสอบโปรแกรม factorial (n!)
+#  - Input:  n (r1 หรือ memory[N])
+#  - Output: ผลลัพธ์อยู่ใน r3 หรือ memory[OUT]
+# =========================================
+
+# Case 1: Base case
+# n = 0 → factorial(0) = 1
+# ตรวจว่าโปรแกรม handle base case ถูกต้อง
+n = 0
+Expected Output = 1
+
+# Case 2: Small number
+# n = 1 → factorial(1) = 1
+# ตรวจว่า recursion หรือ loop เริ่มทำงานถูกต้อง ด้วยลูปเล็กที่ง่าย
+n = 1
+Expected Output = 1
+
+# Case 3: Normal case
+# n = 3 → factorial(3) = 3 * 2 * 1 = 6
+# ตรวจโครงสร้าง recursion/loop หลายรอบ
+n = 3
+Expected Output = 6
+
+# Case 4: Bigger number
+# n = 5 → factorial(5) = 120
+# ตรวจการคำนวณหลายรอบ ด้วยลูปใหญ่ที่มีความซับซ้อนมาก
+n = 5
+Expected Output = 120
+
+# Case 5: Large number stress test
+# n = 8 → factorial(8) = 40320
+# ทดสอบว่า simulator สามารถทำงานได้โดยไม่ overflow (ถ้าหากเป็น 16-bit signed)
+n = 8
+Expected Output = 40320
+
+# Case 6: Invalid / negative input (optional)
+# n = -1 → factorial(-1) undefined
+# ตรวจว่าระบบหยุดหรือให้ค่า 0/1 (ตาม design)
+n = -1
+Expected Output = undefined (should handle gracefully)

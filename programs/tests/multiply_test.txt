@@ -1,0 +1,48 @@
+# =========================================
+#  Test Cases for Multiply Program :
+#  - ทดสอบโปรแกรมคูณเลข 2 จำนวน
+#  - Input:  A (r1), B (r2)
+#  - Output: ผลลัพธ์อยู่ใน r3 หรือ memory[OUT]
+# =========================================
+
+# Case 1: Normal case 
+# การคูณเลขบวกทั่วไป
+# Expected: 3 * 4 = 12
+A = 3
+B = 4
+Expected Output = 12
+
+# Case 2: Multiplication with zero
+# การคูณเลขด้วยจำนวนศูนย์ ต้องได้ผลลัพธ์เป็น 0
+# Expected: 5 * 0 = 0
+A = 5
+B = 0
+Expected Output = 0
+
+# Case 3: Multiplication with one
+# การคูณเลขด้วยจำนวน 1 ต้องได้ค่าเดิม
+# Expected: 7 * 1 = 7
+A = 7
+B = 1
+Expected Output = 7
+
+# Case 4: Equal numbers
+# การคูณเลขเดียวกันเข้าด้วยกัน ตรวจสอบการวน loop ซ้ำหลายรอบ
+# Expected: 5 * 5 = 25
+A = 5
+B = 5
+Expected Output = 25
+
+# Case 5: Larger operands
+# ตรวจสอบความถูกต้องเมื่อ loop หลายครั้ง
+# Expected: 8 * 6 = 48
+A = 8
+B = 6
+Expected Output = 48
+
+# Case 6: Negative number (optional)
+# ถ้า simulator รองรับค่าลบ ให้ทดสอบด้วยการลองคูณจำนวนลบ
+# Expected: (-3) * 4 = -12
+A = -3
+B = 4
+Expected Output = -12
