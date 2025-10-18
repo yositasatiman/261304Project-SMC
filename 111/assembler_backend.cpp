@@ -50,22 +50,22 @@ constexpr int REGB_SHIFT   = 16;
 inline uint32_t packR(int opcode, int rA, int rB, int dest) {
     // R-type: opcode|regA|regB|dest(3 บิต)
     return (uint32_t(opcode) << OPCODE_SHIFT)
-         | (uint32_t(rA)     << REGA_SHIFT)
-         | (uint32_t(rB)     << REGB_SHIFT)
-         | (uint32_t(dest) & 0x7u);
+        | (uint32_t(rA)     << REGA_SHIFT)
+        | (uint32_t(rB)     << REGB_SHIFT)
+        | (uint32_t(dest) & 0x7u);
 }
 inline uint32_t packI(int opcode, int rA, int rB, int offset16) {
     // I-type: opcode|regA|regB|offset(16 บิต - two's complement)
     return (uint32_t(opcode) << OPCODE_SHIFT)
-         | (uint32_t(rA)     << REGA_SHIFT)
-         | (uint32_t(rB)     << REGB_SHIFT)
-         | (uint32_t(offset16) & 0xFFFFu);
+        | (uint32_t(rA)     << REGA_SHIFT)
+        | (uint32_t(rB)     << REGB_SHIFT)
+        | (uint32_t(offset16) & 0xFFFFu);
 }
 inline uint32_t packJ(int opcode, int rA, int rB) {
     // J-type: opcode|regA|regB|unused(16)
     return (uint32_t(opcode) << OPCODE_SHIFT)
-         | (uint32_t(rA)     << REGA_SHIFT)
-         | (uint32_t(rB)     << REGB_SHIFT);
+        | (uint32_t(rA)     << REGA_SHIFT)
+        | (uint32_t(rB)     << REGB_SHIFT);
 }
 inline uint32_t packO(int opcode) {
     // O-type: opcode|unused(22)
@@ -135,7 +135,7 @@ ErrInfo parseNumber(const string& token, long long& outVal){
 
 // หา address ของ label จาก symbol table
 ErrInfo findLabel(const unordered_map<string,int>& symtab,
-                  const string& label, int& outAddr){
+                const string& label, int& outAddr){
     auto it = symtab.find(label);
     if (it==symtab.end())
         return {AsmError::UNDEFINED_LABEL, "undefined label: " + label};
@@ -148,8 +148,8 @@ ErrInfo findLabel(const unordered_map<string,int>& symtab,
 //   - isBranch=true    => คำนวณ relative offset = target - (PC+1) (สำหรับ beq)
 //   - isBranch=false   => ใช้ address ตรง ๆ (เช่น lw/sw/.fill เมื่อเป็น label)
 ErrInfo getFieldValue(const unordered_map<string,int>& symtab,
-                      const string& token, int currentPC,
-                      bool asOffset16, bool isBranch, int& outVal){
+                    const string& token, int currentPC,
+                    bool asOffset16, bool isBranch, int& outVal){
     long long val=0;
     if (looksNumber(token)){
         ErrInfo e = parseNumber(token,val);
@@ -203,7 +203,7 @@ EncodeResult assemble(const unordered_map<string,int>& symtab, const IRInstr& ir
     if (opcode < 0){
         int val=0;
         ErrInfo e = getFieldValue(symtab, ir.fieldToken, ir.pc,
-                                  /*asOffset16=*/false, /*isBranch=*/false, val);
+                                /*asOffset16=*/false, /*isBranch=*/false, val);
         if (e.code!=AsmError::NONE){ r.error=e; return r; }
         r.word = val;
         return r;
@@ -228,7 +228,7 @@ EncodeResult assemble(const unordered_map<string,int>& symtab, const IRInstr& ir
             e = needReg(ir.regB, "regB");         if (e.code!=AsmError::NONE){ r.error=e; return r; }
             int off=0;
             e = getFieldValue(symtab, ir.fieldToken, ir.pc,
-                              /*asOffset16=*/true, /*isBranch=*/false, off);
+                            /*asOffset16=*/true, /*isBranch=*/false, off);
             if (e.code!=AsmError::NONE){ r.error=e; return r; }
             r.word = (int32_t)packI(opcode, ir.regA, ir.regB, off);
             return r;
@@ -240,7 +240,7 @@ EncodeResult assemble(const unordered_map<string,int>& symtab, const IRInstr& ir
             e = needReg(ir.regB, "regB");         if (e.code!=AsmError::NONE){ r.error=e; return r; }
             int off=0;
             e = getFieldValue(symtab, ir.fieldToken, ir.pc,
-                              /*asOffset16=*/true, /*isBranch=*/true, off);
+                            /*asOffset16=*/true, /*isBranch=*/true, off);
             if (e.code!=AsmError::NONE){ r.error=e; return r; }
             r.word = (int32_t)packI(opcode, ir.regA, ir.regB, off);
             return r;
@@ -297,10 +297,10 @@ int main(){
         EncodeResult res = assemble(symtab, ir);
         if (res.error.code != AsmError::NONE){
             cout << setw(6) << ir.mnemonic << " @PC=" << ir.pc
-                 << "  ERROR: " << res.error.msg << "\n";
+                << "  ERROR: " << res.error.msg << "\n";
         }else{
             cout << setw(6) << ir.mnemonic << " @PC=" << ir.pc
-                 << "  -> machine code (dec) = " << res.word << "\n";
+                << "  -> machine code (dec) = " << res.word << "\n";
         }
     }
     return 0;
